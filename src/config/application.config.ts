@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-import path from "path";
+import dotenv from 'dotenv';
+import path from 'path';
 
 export interface ApplicationConfig {
   baseUrl: string;
@@ -8,22 +8,22 @@ export interface ApplicationConfig {
 }
 
 const config: ApplicationConfig = {
-  baseUrl: "",
+  baseUrl: '',
   port: 0,
   production: false,
 };
 let isInitialized = false;
 
 const initializeConfig = () => {
-  const production = process.env.NODE_ENV === "production";
+  const production = process.env.NODE_ENV === 'production';
   config.production = production;
   if (production) {
-    dotenv.config({ path: path.resolve("production.env") });
+    dotenv.config({ path: path.resolve('production.env') });
   } else {
     dotenv.config();
   }
 
-  config.baseUrl = process.env.BASE_URL || "http://localhost";
+  config.baseUrl = process.env.BASE_URL || 'http://localhost';
   config.port = process.env.PORT || 3000;
 
   isInitialized = true;

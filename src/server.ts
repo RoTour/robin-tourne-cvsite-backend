@@ -1,14 +1,16 @@
-import express, { Express, Request, Response } from "express";
-import { LOGGER } from "./util/logger";
-import { errorHandler } from "./middleware/errorHandler.middleware";
-import { HttpStatus } from "./util/http-status";
-import { ApplicationConfig } from "./config/application.config";
-import { router as pageRouter } from "./router/pages.router";
-import "reflect-metadata";
+import 'reflect-metadata';
+import express, { Express } from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import { LOGGER } from './util/logger';
+import { errorHandler } from './middleware/errorHandler.middleware';
+import { HttpStatus } from './util/http-status';
+import { ApplicationConfig } from './config/application.config';
+import { router as pageRouter } from './routers/pages.router';
+import { router as articleRouter } from './routers/article.router';
 
 const startServer = async ({
   port,
-  production,
 }: ApplicationConfig): Promise<Express> => {
   const app: Express = express();
 
@@ -16,8 +18,14 @@ const startServer = async ({
   app.use(express.json());
   // server.use(cookieParser());
 
+  // Setup body parser
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+  app.use(cors());
+
   // Setup Routers
-  app.use("", pageRouter);
+  app.use('', pageRouter);
+  app.use('/article', articleRouter);
 
   // ? Catch all errors
   app.use((req, res, next) => next(HttpStatus.NOT_FOUND));
