@@ -1,7 +1,9 @@
 import {
-  BaseEntity, Column, Entity, PrimaryGeneratedColumn,
+  BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
 import bcrypt from 'bcrypt';
+// eslint-disable-next-line import/no-cycle
+import { Post } from './post.entity';
 // import { ArticleImage } from './image.entity';
 
 export const enum UserRole {
@@ -26,6 +28,9 @@ export class User extends BaseEntity {
   // @Column({ nullable: true })
   // profilePicture?: ArticleImage;
 
+  @OneToMany(() => Post, (post: Post) => post.user)
+  posts!: Post[];
+
   @Column({ default: UserRole.DEFAULT })
   role!: UserRole;
 
@@ -45,7 +50,4 @@ export class User extends BaseEntity {
   hidePassword = () => {
     this.hashPassword = undefined;
   };
-
-  // eslint-disable-next-line max-len
-  static checkPayload = (payload: any): boolean => (payload.email && payload.password && payload.role && payload.username);
 }
