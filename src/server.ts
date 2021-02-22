@@ -27,15 +27,27 @@ const startServer = async ({
 
   // Setup JWT
   app.use((req: any, res, next) => {
-    if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
+    LOGGER.log('called jwt setup');
+    if (req.headers
+      && req.headers.authorization
+      && req.headers.authorization.split(' ')[0] === 'JWT'
+      && req.headers.username) {
+      LOGGER.log('first check ok');
       jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs',
-        (err: VerifyErrors|null, decode: object|undefined) => {
-          if (err) req.user = undefined;
-          req.user = decode;
-          next();
+        (err: VerifyErrors|null, decode: any) => {
+          if (err || (decode.username && decode.username !== req.headers.username)) {
+            req.user = undefined;
+            req.username = undefined;
+            next();
+          } else {
+            req.user = decode;
+            next();
+          }
         });
     } else {
+      LOGGER.log(`first check NOT ok: ${req.headers.username}`);
       req.user = undefined;
+      req.username = undefined;
       next();
     }
   });

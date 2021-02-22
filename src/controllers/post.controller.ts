@@ -15,7 +15,16 @@ async function assignValues(post: Post, values: any): Promise<Post> {
 }
 
 export async function index(req: Request, res: Response) {
-  res.json(await getRepository(Post).find());
+  const posts = await getRepository(Post).find({ relations: ['user'] });
+
+  // Remapping the result to avoid sending hash passwords to clients
+  res.json(posts.map((post) => ({
+    id: post.id,
+    text: post.text,
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt,
+    ownerName: post.user.username,
+  })));
 }
 
 export async function show(req: Request, res: Response, id: string) {
