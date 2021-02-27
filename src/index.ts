@@ -9,9 +9,6 @@ const getOptions = async () => {
     type: 'postgres',
     synchronize: true,
     logging: false,
-    extra: {
-      ssl: true,
-    },
     entities: ['**/models/**/*.entity.ts', '**/models/**/*.entity.js'],
   };
   if (process.env.DATABASE_URL) {
