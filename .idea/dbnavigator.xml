@@ -26,7 +26,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="047870b1-a6c7-4168-8183-57941ca449cc">
-        <schema name="robin-tourne-cvsite" object-types="view, table" />
+        <schema name="robin-tourne-cvsite" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
