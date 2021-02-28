@@ -6,15 +6,15 @@ import { startServer } from './server';
 
 dotenv.config();
 
-const getOptions = async () => {
+const getOptions = async (production: boolean) => {
   let connectionOptions: ConnectionOptions;
   connectionOptions = {
     type: 'postgres',
     synchronize: true,
     logging: false,
-    // extra: {
-    //   ssl: true,
-    // },
+    ssl: production && {
+      rejectUnauthorized: false,
+    },
     entities: [
       '**/models/**/*.entity.ts',
       '**/models/**/*.entity.js',
@@ -32,8 +32,8 @@ const getOptions = async () => {
   return connectionOptions;
 };
 
-const connect2Database = async (): Promise<void> => {
-  const typeormConfig = await getOptions();
+const connect2Database = async (production: boolean): Promise<void> => {
+  const typeormConfig = await getOptions(production);
   await createConnection(typeormConfig);
 };
 
@@ -46,7 +46,7 @@ const connect2Database = async (): Promise<void> => {
   // const typeormConfig = await getOptions();
   // await createConnection(typeormConfig);
 
-  await connect2Database();
+  await connect2Database(config.production);
 
   // Start the server
   await startServer(config);
