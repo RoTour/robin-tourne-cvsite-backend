@@ -12,9 +12,9 @@ const getOptions = async () => {
     type: 'postgres',
     synchronize: true,
     logging: false,
-    extra: {
-      ssl: true,
-    },
+    // extra: {
+    //   ssl: true,
+    // },
     entities: [
       '**/models/**/*.entity.ts',
       '**/models/**/*.entity.js',
