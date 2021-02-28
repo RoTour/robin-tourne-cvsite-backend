@@ -31,6 +31,7 @@ import { startServer } from './server';
 
   // const typeormConfig = await getOptions();
   // await createConnection(typeormConfig);
+
   await createConnection();
 
   // Start the server
