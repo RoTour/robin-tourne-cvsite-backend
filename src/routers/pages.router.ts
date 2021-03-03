@@ -13,3 +13,7 @@ router.post(
   '/auth/login',
   loginController.login,
 );
+router.get(
+  '/auth/user-info',
+  loginController.userInfo,
+);

@@ -19,10 +19,10 @@ import { User } from '../models/user.entity';
  */
 export const register = (req: Request, res: Response) => {
   const payload = req.body;
-  if (!(payload.email && payload.password && payload.role && payload.username)) {
+  if (!(payload.email && payload.password && payload.username)) {
+    LOGGER.error('Missing requirements in body');
     throw new Error('Missing requirements in body');
   }
-
   const userRepo = getRepository(User);
   const newUser = new User(payload);
   userRepo
@@ -57,11 +57,13 @@ export const login = async (req: Request, res: Response) => {
         {
           email: user.email,
           username: user.username,
+          role: user.role,
           _id: user.id,
         },
         'RESTFULAPIs',
       ),
       username: user.username,
+      role: user.role,
     });
   }
 };
@@ -74,3 +76,12 @@ export const loginRequired = (req: any, res: Response, next: NextFunction): void
     res.status(401).json({ message: 'Unauthorized user' });
   }
 };
+
+export function userInfo(req: any, res: Response) {
+  if (req.user) {
+    res.json({ role: req.user.role, username: req.user.username });
+  } else {
+    LOGGER.log('Error 401: Unauthorized');
+    res.status(401).json({ message: 'Unauthorized user' });
+  }
+}
