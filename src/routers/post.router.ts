@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import * as controller from '../controllers/post.controller';
 import { loginRequired } from '../controllers/login.controller';
+import { accessControlAllowOrigin } from '../middleware/cors.middleware';
 
 export const router = Router();
 
@@ -27,6 +28,7 @@ router.get(
 router.post(
   '/',
   loginRequired,
+  accessControlAllowOrigin,
   controller.create,
 );
 

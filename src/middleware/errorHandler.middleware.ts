@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from "express";
-import { HttpStatus } from "../util/http-status";
+import { NextFunction, Request, Response } from 'express';
+import { HttpStatus } from '../util/http-status';
 
 export const errorHandler = (
   err: HttpStatus | Error | undefined,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   let error: HttpStatus;
   if (err === undefined || (err as HttpStatus)?.statusCode === 404) {
