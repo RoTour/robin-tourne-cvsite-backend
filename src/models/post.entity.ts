@@ -12,7 +12,7 @@ export class Post extends BaseEntity {
   @ManyToOne(() => User, (user) => user.posts)
   user!: User;
 
-  @Column({ length: 500 })
+  @Column({ length: 5000 })
   text!: string;
 
   @CreateDateColumn()
