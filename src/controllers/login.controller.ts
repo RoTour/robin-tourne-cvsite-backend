@@ -79,7 +79,7 @@ export const loginRequired = (req: any, res: Response, next: NextFunction): void
 
 export function userInfo(req: any, res: Response) {
   if (req.user) {
-    res.json({ role: req.user.role, username: req.user.username });
+    res.json({ ...req.user });
   } else {
     LOGGER.log('Error 401: Unauthorized');
     res.status(401).json({ message: 'Unauthorized user' });

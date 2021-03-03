@@ -35,9 +35,11 @@ const startServer = async ({
       jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs',
         (err: VerifyErrors | null, decode: any) => {
           if (err) {
+            LOGGER.log('err');
             req.user = undefined;
             next();
           } else {
+            LOGGER.log('completed without any pb');
             req.user = decode;
             next();
           }

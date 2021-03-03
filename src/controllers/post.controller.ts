@@ -7,7 +7,7 @@ import { User } from '../models/user.entity';
 
 async function assignValues(post: Post, values: any): Promise<Post> {
   const newPost = post;
-  const owner = await getRepository(User).findOne({ email: values.userEmail });
+  const owner = await getRepository(User).findOne({ email: values.email });
   if (!owner) throw new Error(`User "${values.userEmail} not found"`);
   newPost.text = values.text;
   newPost.user = owner;
